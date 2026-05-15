@@ -33,24 +33,14 @@
           const li = document.createElement("li")
           li.innerText = `${data.sender} (${data.time}): ${data.text}` // The list item will show the sender, time, and text of the message
           document.getElementById("messages").appendChild(li) // Add the list item to the unordered list with id "messages"
-          
-          // Update the UI
-          document.getElementById("meta").innerText =
-            `Last updated by ${data.sender} at ${data.time}`;
-          statusText.className = data.status === "on" ? "on" : "off";
-          console.log("Class set to", statusText.className);
+
         };
-
-        function toggle() {
-          const current = document.getElementById("statusText").className;
-          const nextStatus = current === "on" ? "off" : "on";
-
-          // Send a JSON object as a string
-          const payload = { status: nextStatus };
-          ws.send(JSON.stringify(payload));
+        function send() {
+          const input = document.getElementById("input");
+          if (!input.value.trim()) return; // Make sure you can't send empty messages (such as in most common messaging platforms)
+          ws.send(JSON.stringify({ text: input.value })); // Convert the JS Object into a JSON string and send it to the server
+          input.value = ""; // Clear the input field after sending the message
         }
-        document.getElementById("toggle").addEventListener("click", toggle);
-      });
     </script>
   </head>
   <body>
