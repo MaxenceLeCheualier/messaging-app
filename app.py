@@ -31,7 +31,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
 
             # Enrich the data with server-side info (timestamp)
             payload = {
-                "status": data["status"],
+                "text": data["text"], 
                 "sender": client_id,
                 "time": datetime.datetime.now().strftime("%H:%M:%S")
             }
