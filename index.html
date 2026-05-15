@@ -45,7 +45,12 @@
         }
     
     document.getElementById("sendBtn").addEventListener("click", send); 
-    
+    document.getElementById("input").addEventListener("keypress", (event) => {
+      if (event.key === "Enter") {
+        send();
+      }
+    });
+      });
     </script>
   </head>
   <body>
