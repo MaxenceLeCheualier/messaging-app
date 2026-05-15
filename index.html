@@ -21,7 +21,7 @@
     </style>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        // Generate a random ID so we can see who "flipped the switch"
+        // Generate a random ID so we can see who "send the message"
         const myId = "User-" + Math.floor(Math.random() * 1000);
         const ws = new WebSocket(`ws://localhost:8000/ws/${myId}`);
 
@@ -29,6 +29,11 @@
           // Parse the JSON string back into a JS Object
           const data = JSON.parse(event.data);
 
+          // Create a new list item for the message incoming from the server
+          const li = document.createElement("li")
+          li.innerText = `${data.sender} (${data.time}): ${data.text}` // The list item will show the sender, time, and text of the message
+          document.getElementById("messages").appendChild(li) // Add the list item to the unordered list with id "messages"
+          
           // Update the UI
           document.getElementById("meta").innerText =
             `Last updated by ${data.sender} at ${data.time}`;
