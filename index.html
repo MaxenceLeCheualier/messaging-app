@@ -35,12 +35,16 @@
           document.getElementById("messages").appendChild(li) // Add the list item to the unordered list with id "messages"
 
         };
+
+        // Add a function to the toggle button to send a message to the server when clicked
         function send() {
           const input = document.getElementById("input");
           if (!input.value.trim()) return; // Make sure you can't send empty messages (such as in most common messaging platforms)
           ws.send(JSON.stringify({ text: input.value })); // Convert the JS Object into a JSON string and send it to the server
           input.value = ""; // Clear the input field after sending the message
         }
+
+        
     </script>
   </head>
   <body>
