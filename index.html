@@ -21,7 +21,7 @@
     </style>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        // Generate a random ID so we can see who "flipped the switch"
+        // Generate a random ID so we can see who "send the message"
         const myId = "User-" + Math.floor(Math.random() * 1000);
         const ws = new WebSocket(`ws://localhost:8000/ws/${myId}`);
 
@@ -29,27 +29,32 @@
           // Parse the JSON string back into a JS Object
           const data = JSON.parse(event.data);
 
-          // Update the UI
-          document.getElementById("meta").innerText =
-            `Last updated by ${data.sender} at ${data.time}`;
-          statusText.className = data.status === "on" ? "on" : "off";
-          console.log("Class set to", statusText.className);
+          // Create a new list item for the message incoming from the server
+          const li = document.createElement("li")
+          li.innerText = `${data.sender} (${data.time}): ${data.text}` // The list item will show the sender, time, and text of the message
+          document.getElementById("messages").appendChild(li) // Add the list item to the unordered list with id "messages"
+
         };
 
-        function toggle() {
-          const current = document.getElementById("statusText").className;
-          const nextStatus = current === "on" ? "off" : "on";
-
-          // Send a JSON object as a string
-          const payload = { status: nextStatus };
-          ws.send(JSON.stringify(payload));
+        // Add a function to the toggle button to send a message to the server when clicked
+        function send() {
+          const input = document.getElementById("input");
+          if (!input.value.trim()) return; // Make sure you can't send empty messages (such as in most common messaging platforms)
+          ws.send(JSON.stringify({ text: input.value })); // Convert the JS Object into a JSON string and send it to the server
+          input.value = ""; // Clear the input field after sending the message
         }
-        document.getElementById("toggle").addEventListener("click", toggle);
+    
+    document.getElementById("sendBtn").addEventListener("click", send); 
+    document.getElementById("input").addEventListener("keypress", (event) => {
+      if (event.key === "Enter") {
+        send();
+      }
+    });
       });
     </script>
   </head>
   <body>
-    <h1>
+    <h1 Messagerie /h1>
       shared status with JSON messages:
       <span id="statusText" class="off"></span>
     </h1>
