@@ -43,12 +43,13 @@
           ws.send(JSON.stringify({ text: input.value })); // Convert the JS Object into a JSON string and send it to the server
           input.value = ""; // Clear the input field after sending the message
         }
-
-        
+    
+    document.getElementById("sendBtn").addEventListener("click", send); 
+    
     </script>
   </head>
   <body>
-    <h1>
+    <h1 Messagerie /h1>
       shared status with JSON messages:
       <span id="statusText" class="off"></span>
     </h1>
